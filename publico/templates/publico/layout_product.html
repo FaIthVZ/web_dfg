@@ -1,0 +1,145 @@
+{% extends 'publico/layout.html' %}
+{% block menu_movil %}
+<section>
+    <div class="container">
+        <div class="fixed-action-btn hide-on-large-only" style="top: 60px; left: 10px; right: inherit;">
+            <a href="#" class="button-collapse2 btn-floating" data-activates="slide-out">
+                <i class="large material-icons">view_list</i>
+            </a>
+        </div>
+        <ul id="slide-out" class="side-nav side-nav-movil" style="width: 200px;">
+            <li>
+                <nav class="menu-search">
+                    <div class="nav-wrapper">
+                        <form>
+                            <div class="input-field">
+                                <input id="valor" type="search" class="input-search search">
+                                <label for="valor"></label><i class="material-icons dfg-red-text">search</i>
+                            </div>
+                        </form>
+                    </div>
+                </nav>
+            </li>
+            <li class="no-padding">
+                <ul class="collapsible collapsible-accordion menu-ul">
+                    {% for fam1 in SECCIONES %}
+                    {% if fam1.PadreFamiliaID == '' %}
+                    <li>
+                        <a href="{% url 'products_list' 0 0 fam1.FamiliaID %}" class="collapsible-header waves-effect waves-red menu-prin {% if fam1.FamiliaID == ISELFP %}active{% endif %}">{{ fam1.Descripcion }}</a>
+                        {% if fam1.Hijos != '' %}
+                        <div class="collapsible-body">
+                            <ul>
+                                {% for fam2 in SECCIONES %}
+                                {% if fam2.PadreFamiliaID == fam1.FamiliaID %}
+                                <li class="{% if fam2.FamiliaID == ISELF %}active{% endif %}">
+                                    <a href="{% url 'products_list' 0 fam2.FamiliaID fam1.FamiliaID %}" class="waves-effect waves-red item-menu">{{ fam2.Descripcion }}</a>
+                                </li>
+                                {% endif %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% endif %}
+                    </li>
+                    {% endif %}
+                    {% endfor %}
+                </ul>
+            </li>
+        </ul>
+    </div>
+</section>
+{% endblock menu_movil %}
+{% block content %}
+{% load staticfiles %}
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col hide-on-med-and-down l3 linea">
+                <ul class="menu">
+                    <li>
+                        <nav class="menu-search">
+                            <div class="nav-wrapper">
+                                <form>
+                                    <div class="input-field">
+                                        <input id="search" type="search" class="input-search search">
+                                        <label for="search"></label><i class="material-icons dfg-red-text">search</i>
+                                    </div>
+                                </form>
+                            </div>
+                        </nav>
+                    </li>
+                    <li class="no-padding">
+                        <ul class="collapsible collapsible-accordion menu-ul">
+                            {% for fam1 in SECCIONES %}
+                            {% if fam1.PadreFamiliaID == '' %}
+                            <li>
+                                <a href="{% url 'products_list' 0 0 fam1.FamiliaID %}" class="collapsible-header waves-effect waves-red menu-prin menu-prin {% if fam1.FamiliaID == ISELFP %}active{% endif %}">{{ fam1.Descripcion }}</a>
+                                {% if fam1.Hijos != '' %}
+                                <div class="collapsible-body">
+                                    <ul>
+                                        {% for fam2 in SECCIONES %}
+                                        {% if fam2.PadreFamiliaID == fam1.FamiliaID %}
+                                        <li class="{% if fam2.FamiliaID == ISELF %}active{% endif %}">
+                                            <a href="{% url 'products_list' 0 fam2.FamiliaID fam1.FamiliaID %}" class="waves-effect waves-red item-menu">{{ fam2.Descripcion }}</a>
+                                        </li>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                                {% endif %}
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="col s12 m12 l9">
+                <div class="fixed-action-btn vertical click-to-toggle" style="bottom: 45px;right: 10px;top: 65px;">
+                    <a href="{% url 'price' %}" class="btn-floating btn-chip">
+                        <div class="chip">
+                            <img src="{% static 'publico/img/producto.png' %}">
+                            <span id="cant_cotizacion">{{ CANT }}</span><span> items</span>
+                        </div>
+                    </a>
+                </div>
+                <div class="titulo">
+                    <div>
+                        <span>{% block cabecera %}{% endblock cabecera %}</span><img src="{% static 'publico/img/Titleh1.png' %}" alt="">
+                    </div>
+                </div>
+                <hr>
+                <span class="dfg-gris-text">Seleccione el repuesto de su preferencia para poder cotizarlo.</span>
+                <br>
+                {% block ListaProductos %}
+                {% endblock ListaProductos %}
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}
+{% block scripts %}
+<script type="text/javascript">
+    $(".productos").addClass("active");
+
+    $('.search').keypress(function (e) {   
+        if (e.which == 13) {
+            Search($(this).val());
+        }
+    });
+
+    $('.send').on('click', Search);
+
+    function Search(valor) {              
+        window.location.href = "{% url 'search_result' busqueda='9' %}".replace('9', valor);
+    }
+
+    $().ready(function () {
+        $(".button-collapse2").sideNav({
+            menuWidth: 360, // Default is 240
+            edge: 'left'
+        });
+    });
+
+</script>
+{% endblock scripts %}

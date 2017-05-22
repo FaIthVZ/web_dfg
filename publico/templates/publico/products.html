@@ -1,0 +1,217 @@
+{% extends 'publico/layout_product.html' %}
+{% block title %}{{ block.super }}Productos | DFG{% endblock title %}
+{% block cabecera %}
+        PRODUCTOS
+{% endblock %}
+{% block ListaProductos %}
+    {% load staticfiles %}
+<form action="" name="formProducto" id="formProducto" novalidate="novalidate">
+    {% csrf_token %}
+    <div class="row">
+        {% for producto in productos.productos %}
+        <div class="col s6 m4 l3">
+            <div class="card hoverable">
+                <div class="card-image waves-effect waves-red card-img-list">
+                    <a href="{% url 'product_detail' producto.CodArticulo producto.FamiliaID producto.FamiliaPadreID %}" class="btn_view_prod" title="{{ producto.CodArticulo }}">
+                        <div class="valign-wrapper" style="height: 100%;">
+                            <img class="valign" src="{% static 'publico/img/'%}{{ producto.Grafico }}">
+                        </div>
+                    </a>
+                    <input type="hidden" id="hdP{{ producto.CodArticulo }}" value="{{ producto.FamiliaPadre }}" />
+                    <input type="hidden" id="hdH{{ producto.CodArticulo }}" value="{{ producto.FamiliaHijo }}" />
+                    <input type="hidden" id="hdI{{ producto.CodArticulo }}" value="{{ producto.Indice }}" />
+                </div>
+                <div class="card-action card-list">
+                    <div class="card-item">
+                        <a href="{% url 'product_detail' producto.CodArticulo producto.FamiliaID producto.FamiliaPadreID %}"
+                           id="D{{ producto.CodArticulo }}" title="{{ producto.DesArticulo }}" class="btn_view_prod">{{ producto.DesArticulo }}</a>
+                    </div>
+                    <hr>
+                    <table class="informacion">
+                        <tr>
+                            <td>
+                                <span class="title-detail">Aplicacion:</span>
+                            </td>
+                            <td>
+                                <span class="item-detail">{{ producto.Aplicacion }}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span class="title-detail">Línea:</span>
+                            </td>
+                            <td>
+                                <span class="item-detail" id="DL{{ producto.CodArticulo }}" title="{{ producto.DesLinea }}">{{ producto.DesLinea }}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span class="title-detail">Código:</span>
+                            </td>
+                            <td>
+                                <span class="item-detail">{{ producto.CodArticulo }}</span>
+                            </td>
+                        </tr>
+                    </table>
+                    <hr>
+                    <div class="row">
+                        <div class="col s12">
+                            <input id="can-{{ producto.CodArticulo }}" class="validate cantidad red-text text-darken-3 onlynumber" placeholder="1" value="{{ producto.Cantidad }}" min="1" maxlength="3"
+                                   {% if producto.Seleccionado == '1' %}disabled = "disabled"{% endif %}>
+                            <span class="cantidad-span">Cantidad</span>
+                        </div>
+                        <div class="col s12" id="div{{ producto.CodArticulo }}">
+                            {% if producto.Seleccionado == '1' %}
+                                <input type="checkbox" id="addProd{{ producto.CodArticulo }}" checked="checked" disabled="disabled" />
+                                <label for="addProd{{ producto.CodArticulo }}" class="agregar item-check">
+                                    <i class="material-icons tiny icon-demo">fast_rewind</i> Producto agregado</label>
+                            {% else %}
+                                <input type="checkbox" id="addProd{{ producto.CodArticulo }}" disabled="disabled" />
+                                <label for="addProd{{ producto.CodArticulo }}" class="agregar item-check">
+                                    <a href="#" id="{{ producto.CodArticulo }}" class="btn_add_cart"><i class="material-icons tiny icon-demo">fast_rewind</i> <span id="sp{{ producto.CodArticulo }}" class="add_prod">Agregar a la cotización</span></a>
+                                </label>                            
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</form>
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+    $('a.btn_add_cart').on('click', AddCar);
+
+    $(".productos").addClass("active");
+
+    var debounce = function (fn) {
+      var timeout;
+      return function () {
+        var args = Array.prototype.slice.call(arguments),
+            ctx = this;
+
+        clearTimeout(timeout);
+        timeout = setTimeout(function () {
+          fn.apply(ctx, args);
+        }, 100);
+      };
+    };
+
+    $("input#search").bind('keypress', debounce(function (event) {        
+        if (event.which == 13) {
+            Search($(this).val());
+        }
+    }));
+
+    function Search(valor) {                
+        window.location.href = "{% url 'search_result' busqueda='9' %}".replace('9', valor);
+    }
+
+    $('.send').on('click', Search);
+
+    function AddCar() {        
+        var id = $(this).attr('id');
+        var des = $('#D' + id).attr('title');
+        var dlinea = $('#DL' + id).attr('title');
+        var FamPadre = $('#hdP' + id).attr('value');
+        var FamHijo = $('#hdH' + id).attr('value');
+        var Indice = $('#hdI' + id).attr('value');
+        var Cantidad = $('#can-' + id).val();
+        
+        if (Cantidad == ''){
+            Cantidad = '1';
+            $('#can-' + id).val('1');
+        }
+
+        $.ajax({
+            data: { 'id': id, 'des': des, 'dlinea': dlinea, 'famPadre': FamPadre, 'famHijo': FamHijo, 'cantidad': Cantidad },
+            url: '/addcar/',
+            type: 'get',
+            success: function (data) {
+                $('#addProd' + id).attr("checked", "checked");
+                $('#addProd' + id).attr("disabled", "disabled");
+                $('#sp' + id).html('Producto agregado');                
+                $('#cant_cotizacion').html(data.cant);
+                $('#' + id).removeClass("btn_add_cart")
+                $('#' + id).attr("disabled", "disabled");
+                $('#can-' + id).attr("disabled", "disabled");
+
+                ga('ec:addProduct', {
+                    'id': id,
+                    'name': des,
+                    'category': FamPadre,
+                    'brand': 'Web DFG',
+                    'variant': FamHijo,
+                    'price': '0',
+                    'quantity': '1'
+                });
+                ga('ec:setAction', 'add');
+                ga('send', 'event', 'UX', 'click', 'Agregar a la cotización');
+
+                Materialize.toast('Producto agregado: ' + des, 5000, 'rounded')
+            },
+            error: function () {
+                alert('err');
+            }
+        });
+    }
+
+    // Called when a link to a product is clicked.
+    function onProductClick(event) {
+        var id = $(this).attr('title');
+        var des = $('#D' + id).attr('title');
+        var dlinea = $('#DL' + id).attr('title');
+        var FamPadre = $('#hdP' + id).attr('value');
+        var FamHijo = $('#hdH' + id).attr('value');
+        var Indice = $('#hdI' + id).attr('value');
+
+        ga('ec:addProduct', {
+            'id': id,
+            'name': des,
+            'category': FamPadre,
+            'brand': 'Web DFG',
+            'variant': FamHijo,
+            'position': Indice
+        });
+        ga('ec:setAction', 'click', { list: event.data.procedencia });
+        ga('send', 'event', 'UX', 'click', event.data.procedencia);
+    }    
+</script>
+<script type="text/javascript">
+    $().ready(function () {
+        $(".onlynumber").keypress(function (event) {
+
+            var key = event.which || event.keyCode;
+
+            if ($(this).attr('max') !== undefined) {
+                var max = $(this).attr('max').length;
+
+                if ($(this).val().length >= max && key !== 8 && key !== 9 && key !== 13) {
+                    event.preventDefault();
+                    return false;
+                }
+
+            }
+
+            if ($(this).attr('maxlength') !== undefined) {
+                var max = $(this).attr('maxlength');
+
+                if ($(this).val().length >= max && key !== 8 && key !== 9 && key !== 13) {
+                    event.preventDefault();
+                    return false;
+                }
+            }
+
+            if (key == 8 || key == 9 || key == 27 || key == 13 ||
+                (key >= 35 && key <= 39) || (key >= 48 && key <= 57)) {
+                return;
+            } else {
+                event.preventDefault();
+            }
+        });
+    });
+
+</script>
+{% endblock %}

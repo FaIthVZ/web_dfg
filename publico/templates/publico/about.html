@@ -1,0 +1,35 @@
+{% extends 'publico/layout.html' %}
+{% block title %}DFG | DFG{% endblock %}
+{% block content %}
+    {% load staticfiles %}
+<section>
+    <div class="container">
+        <div class="titulo">
+            <div>
+                <span class="noticia">NOSOTROS</span><img src="{% static 'publico/img/Titleh1.png' %}" alt="">
+            </div>
+        </div>
+        <hr>
+    </div>
+    <br>
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m12 l6">
+                <img src="{% static 'publico/img/grey-map.gif' %}" class="responsive-img">
+            </div>
+            <div class="col s12 m12 l6">
+                <h4>DFG Truck Parts</h4><hr>
+                <p align="justify">Como un miembro mas del mundo automotriz DFG TRUCKPARTS viene ofreciendo desde hace mas de 10 años, productos propios, alternativos  para modelos de carga pesada como VOLVO, SCANIA y MERCEDES.  DFG es una marca que se ha ido caracterizando por el constante desarrollo en la ampliación de la gama de sus productos de alto rendimiento acorde a las exigencias del mercado. 
+Socios y distribuidores respaldan la experiencia y conocimientos de la compañía en este rubro y nos confirman como un socio de servicio confiable para el comercio al por mayor de vehículos de carga pesada.</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+    ga('set', 'page', '/Nosotros');
+    ga('send', 'pageview');
+    $(".nosotros").addClass("active");
+</script>
+{% endblock scripts %}

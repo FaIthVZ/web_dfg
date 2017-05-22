@@ -1,0 +1,114 @@
+{% extends 'publico/layout.html' %}
+{% block title %}CONTACTO DIRECTO | DFG{% endblock %}
+{% block content %}
+    {% load staticfiles %}
+<section>
+    <div class="container">
+        <div class="titulo">
+            <div>
+                <span class="noticia">CONTACTO</span><img src="{% static 'publico/img/Titleh1.png' %}" alt="">
+            </div>
+        </div>
+        <hr>
+    </div>
+    <br>
+    <div class="container">
+        <div class="row">
+            <div class="col hide-on-med-and-down l6">
+                <img src="{% static 'publico/img/grey-map.gif' %}" class="responsive-img">
+            </div>
+            <div class="col s12 m12 l6">
+                <div>
+                    <form method="POST" id="contactus" name="contactus" action="">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col s12">
+                                <h5>Formulario de contacto</h5><hr>
+                            </div>
+                            <div class="input-field col s12">
+                                <i class="material-icons prefix">account_circle</i>
+                                <input name="nombre" id="nombre" type="text" required minlength="5">
+                                <label for="nombre">Nombre</label>
+                                <div class="errorTxt1"></div>
+                            </div>
+                            <div class="input-field col s12">
+                                <i class="material-icons prefix">mail</i>
+                                <input id="email" name="email" type="email" required>
+                                <label for="email">Email</label>
+                            </div>
+                            <div class="input-field col s12">
+                                <i class="material-icons prefix">content_paste</i>
+                                <input name="asunto" id="asunto" type="text">
+                                <label for="asunto">Asunto</label>
+                            </div>
+                            <div class="input-field col s12">
+                                <i class="material-icons prefix">mode_edit</i>
+                                <textarea id="mensaje" class="materialize-textarea" required></textarea>
+                                <label for="mensaje">Mensaje</label>
+                            </div>
+                            <div class="col s12">
+                                <button class="waves-effect waves-light btn right" type="submit"><i class="material-icons left">mail</i>Enviar</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+{% block scripts %}
+<script src="{% static 'publico/js/jquery.validate.min.js' %}"></script>
+<script src="{% static 'publico/js/messages_es.js' %}"></script>
+<script type="text/javascript">
+    $.validator.setDefaults({
+        submitHandler: function () {
+            contactUsSubmit();
+        }
+    });
+    $().ready(function () {
+        $("#contactus").validate({
+            errorElement: 'div',
+            errorPlacement: function (error, element) {
+                var placement = $(element).data('error');
+                if (placement) {
+                    $(placement).append(error)
+                } else {
+                    error.insertAfter(element);
+                }
+            }
+        });
+    });
+
+</script>
+<script type="text/javascript">
+    ga('set', 'page', '/Contacto');
+    ga('send', 'pageview');
+    $(".contacto").addClass("active");
+
+    function contactUsSubmit() {        
+        if ($('#contactus')[0].checkValidity()) {
+            var name = document.forms['contactus']['nombre'].value;
+            var email = document.forms['contactus']['email'].value;
+            var subject = document.forms['contactus']['asunto'].value;
+            var comment = document.forms['contactus']['mensaje'].value;
+
+            $.ajax({
+                data: { 'nombre': name, 'correo': email, 'comentario': comment, 'asunto': subject },
+                url: '/sendmail/',
+                type: 'get',
+                success: function () {
+                    Materialize.toast('Su consulta fue enviada, en breve le estaremos respondiento. Gracias.', 5000, 'rounded')
+                    document.forms['contactus']['nombre'].value = "";
+                    document.forms['contactus']['email'].value = "";
+                    document.forms['contactus']['asunto'].value = "";
+                    document.forms['contactus']['mensaje'].value = "";                    
+                },
+                error: function () {
+                    Materialize.toast('Ocurrió un error al enviar su correo. Vuelva a intentarlo!', 5000, 'rounded')
+                }
+            });
+        }
+    }
+</script>
+{% endblock %}

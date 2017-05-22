@@ -1,0 +1,36 @@
+{% extends 'publico/layout.html' %}
+{% block content %}
+    {% load staticfiles %}
+<section>
+    <div class="container titu">
+        <div class="titulo">
+            <div>
+                <span class="noticia">NOVEDADES</span><img src="{% static 'publico/img/Titleh1.png' %}" alt="">
+            </div>
+        </div>
+        <hr class="hr">
+    </div>
+    <div class="container opciones">
+        <div class="row">
+            <!--<a href="{% url 'news' %}">
+                <div class="col s12 m6 l6 waves-effect waves-red borde news">
+                    <h5>Noticias</h5>
+                </div>
+            </a>-->
+            <a href="{% url 'offers_promotions' %}">
+                <div class="col s12 m6 l6 waves-effect waves-red borde offers">
+                    <h5>Productos nuevos</h5>
+                </div>
+            </a>            
+        </div>
+    </div>
+    <div class="container">
+        {% block detalle %}{% endblock %}
+    </div>
+</section>
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+    $(".novedades").addClass("active");
+</script>
+{% endblock %}

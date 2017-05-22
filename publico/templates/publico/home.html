@@ -1,0 +1,72 @@
+{% extends 'publico/layout.html' %}
+{% block title %}DFG | Repuestos para Camiones y Buses Europeos/Americanos{% endblock %}
+{% block content %}
+    {% load staticfiles %}
+<section>
+    <div class="slider">
+        <ul class="slides z-depth-2">
+            <li>
+                <img src="{% static 'publico/img/slider.png' %}">
+            </li>
+            <li>
+                <img src="{% static 'publico/img/volvo.jpg' %}">
+            </li>
+            <li>
+                <img src="{% static 'publico/img/grey-map.gif' %}">
+            </li>            
+        </ul>
+    </div>
+</section>
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m12 l4">
+                <div class="card">
+                    <div class="card-image waves-effect waves-block waves-light">
+                        <a href="{% url 'about' %}"><img src="{% static 'publico/img/grey-map.gif' %}"></a>                        
+                    </div>
+                    <div class="card-content">
+                        <span class="card-title activator">Nosotros</span>
+                        <p><a href="{% url 'about' %}">Ver más...</a></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12 m12 l4">
+                <div class="card">
+                    <div class="card-image waves-effect waves-block waves-light">
+                        <a href="{% url 'products_catalog' %}"><img src="{% static 'publico/img/productos_home.png' %}"></a>                        
+                    </div>
+                    <div class="card-content">
+                        <span class="card-title activator">Productos</span>
+                        <p><a href="{% url 'products_catalog' %}">Catálogo de productos</a></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12 m12 l4">
+                <div class="card">
+                    <div class="card-image waves-effect waves-block waves-light">
+                        <a href="{% static 'publico/doc/catalogodfg2016.pdf' %}" target="_blank"><img src="{% static 'publico/img/catalogo.png' %}"></a>                        
+                    </div>
+                    <div class="card-content">
+                        <span class="card-title activator">Catálogo Online</span>
+                        <p><a href="{% static 'publico/doc/catalogodfg2016.pdf' %}" target="_blank">Descargue el catálogo</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript">
+    ga('set', 'page', '/Inicio');
+    ga('send', 'pageview');
+
+    $(".inicio").addClass("active");
+
+    $().ready(function () {
+        $('.slider').slider({ full_width: true, height: 550 });
+    });
+</script>
+{% endblock scripts %}

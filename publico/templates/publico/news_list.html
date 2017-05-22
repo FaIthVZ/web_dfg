@@ -1,0 +1,51 @@
+{% extends 'publico/layout_news.html' %}
+{% block title %}
+DFG EN LA FERIA BRASIL 2014 | DFG
+{% endblock %}
+{% block ListaNovedades %}
+    {% load staticfiles %}
+
+<h2>
+    NOTICIAS
+</h2>
+<br>
+<div class="list_novedades">
+    <ul>
+        <li class="content_noticias">
+            <ul>
+                <li class="left">
+
+                    <a href="{% url 'news_detail' %}">
+                        <img src="{% static 'publico/img/'%}DFGBrasil2014.jpg" width="158">
+                    </a>
+                </li>
+                <li class="left content_lists_category">
+                    <div class="content_category">
+                        <span>
+                            3 de marzo del 2014
+                        </span>
+                        <h2>
+                            DFG EN LA FERIA BRASIL 2014
+                        </h2>
+                        <p>
+                            orem ipsum dolor sit amet, consectetur adipiscing elit. Cras vehicula urna et purus tempor tristique. Nulla eu mi ipsum. Vestibulum nibh mauris.
+                        </p>
+                        <a href="{% url 'news_detail' %}" class="vermasnoticias">
+                            Ver más
+                        </a>
+                    </div>
+                </li>
+                <div class="clear"></div>
+            </ul>
+        </li>
+
+
+    </ul>
+</div>
+{% endblock %}
+{% block scripts %}{{ block.super }}
+    <script>
+        ga('set', 'page', '/NoticiasLista');
+        ga('send', 'pageview');
+    </script>    
+{% endblock %}

@@ -1,0 +1,365 @@
+{% extends 'publico/layout.html' %}
+{% block title %}Cotización | DFG{% endblock %}
+{% block content %}
+    {% load staticfiles %}
+<section>
+          <div class="container titu">
+            <div class="fixed-action-btn vertical click-to-toggle" style="bottom: 45px;right: 10px;top: 65px;">
+                    <a href="#" class="btn-floating btn-chip">
+                        <div class="chip">
+                            <img src="{% static 'publico/img/producto.png' %}">
+                            <span id="cant_cotizacion">{{ CANT }}</span><span> items</span>
+                        </div>
+                    </a>
+                </div>
+            <div class="titulo">
+              <div>
+                <span class="noticia">COTIZACION</span><img src="{% static 'publico/img/Titleh1.png' %}" alt="">  
+              </div>                
+            </div>
+            <hr class="hr">
+          </div>
+          <div class="container">
+            <div class="row">              
+              <div class="col s12 borde">
+                <h5>Ingrese sus datos para la cotización</h5>
+              </div>
+            </div>
+          </div>
+          <div class="container">
+            <div class="row">              
+              <form method="POST" action="" class="col s12" name="formCotizar" id="formCotizar" novalidate="novalidate">{% csrf_token %} 
+                <div class="row">
+                  <div class="input-field col s12 m6 l6">
+                    <i class="material-icons prefix">business</i>
+                    <input type="text" id="empresa" name="empresa" minlength="5">
+                    <label for="empresa">Empresa</label>
+                  </div>          
+                  <div class="input-field col s12 m6 l6">
+                    <i class="material-icons prefix">account_circle</i>
+                    <input type="text" value="" id="nombre" name="nombre" required minlength="5" />
+                    <label for="nombre">Nombre</label>
+                  </div>
+                  <div class="input-field col s12 m6 l6">
+                    <i class="material-icons prefix">business_center</i>
+                    <input id="ruc" name="ruc" type="text" maxlength="15" class="onlynumber" />
+                    <label for="ruc">RUC</label>
+                  </div>
+                  <div class="input-field col s12 m6 l6">
+                    <i class="material-icons prefix">mail</i>
+                    <input type="email" value="" id="email" name="email" required />
+                    <label for="email">Email</label>
+                  </div>
+                  <div class="input-field col s12 m6 l6">
+                    <i class="material-icons prefix">phone</i>
+                    <input id="telefono" name="telefono" type="tel" class="onlynumber" maxlength="15" />
+                    <label for="telefono">Teléfono</label>
+                  </div>
+                  <div class="input-field col s12 m6 l6">
+                    <i class="material-icons prefix">phone_android</i>
+                    <input id="celular" name="celular" type="tel" class="onlynumber" maxlength="15" />
+                    <label for="celular">Celular</label>
+                  </div>                  
+                  <div class="input-field col s12 m6 l6">
+                    <i class="material-icons prefix">mode_edit</i>
+                    <textarea id="mensaje" class="materialize-textarea"></textarea>
+                    <label for="mensaje">Mensaje</label>
+                  </div>
+                  <div class="input-field col s12 m6 l6">
+                    <i class="material-icons prefix">language</i>
+                    <select id="pais" name="pais" class="browser-default" required>
+                      <option value="" selected>Seleccione un pais</option>
+                      {% for pais in paises %}
+                      <option value="{{ pais.PaisID }}">{{ pais.Descripcion }}</option>
+                      {% endfor %}
+                    </select>
+                    <label for="pais" class="titulo_campo">Pais</label>
+                  </div>
+                  <div class="col s12">
+                      <button class="waves-effect waves-light btn right" type="submit"><i class="material-icons left">mail</i>Enviar</button>                    
+                  </div>
+                </div>
+              </form>              
+            </div>
+          </div>          
+        </section>
+        <section>
+          <div id="datos" class="container">
+            <div class="row">              
+              <div class="col s12 borde">
+                <h5>Lista de repuestos</h5>
+              </div>
+            </div>
+            <table class="bordered striped highlight">
+              <thead>
+                <tr>
+                    <th data-field="imagen">Imagen</th>
+                    <th data-field="codigo">Código</th>
+                    <th data-field="descripcion">Descripción</th>
+                    <th data-field="linea">Línea</th>
+                    <th data-field="cantidad">Cantidad</th>
+                    <th data-field="eliminar"></th>
+                </tr>
+              </thead>
+
+              <tbody>
+                  {% for producto in productos %}
+                <tr>
+                  <td class="imagen">
+                    <img src="{% static 'publico/img/' %}{{ producto.CodArticulo }}.png" class="responsive-img materialboxed tabla">
+                  </td>
+                  <td>
+                      {{ producto.CodArticulo }}
+                                <input type="hidden" id="hdId{{ producto.Id }}" value="{{ producto.CodArticulo }}" />
+                                <input type="hidden" id="hdD{{ producto.CodArticulo }}" value="{{ producto.Descripcion }}" />
+                                <input type="hidden" id="hdP{{ producto.CodArticulo }}" value="{{ producto.FamiliaPadre }}" />
+                                <input type="hidden" id="hdH{{ producto.CodArticulo }}" value="{{ producto.FamiliaHijo }}" />
+                                <input type="hidden" id="hdI{{ producto.CodArticulo }}" value="{{ producto.Id }}" />
+                                <input type="hidden" id="ID{{ producto.Id }}" value="{{ producto.CodArticulo }}" />
+                  </td>
+                  <td>{{ producto.Descripcion }}</td>
+                  <td>{{ producto.Linea }}</td>
+                  
+                  <td class="center-align">                    
+                    <input id="can-{{ producto.Id }}" name="can-{{ producto.Id }}" min="1" maxlength="3" class="red-text text-darken-3 onlynumber cantidad" required data-msg="(*)" value="{{ producto.Cantidad }}" placeholder="1" />
+                  </td>
+                  <td class="center-align">
+                    <a href="#" id="{{ producto.CodArticulo }}" class="delCart"><i class="material-icons prefix">cancel</i></a>                                         
+                  </td>
+                </tr>
+                  {% endfor %}                
+              </tbody>
+            </table>
+          </div>
+        </section>
+{% endblock %}
+{% block scripts %}
+<script src="{% static 'publico/js/jquery.validate.min.js' %}"></script>
+<script src="{% static 'publico/js/messages_es.js' %}"></script>
+<script type="text/javascript">
+    $.validator.setDefaults({        
+        submitHandler: function () {            
+            if ($('#cant_cotizacion')[0].innerHTML == "0") {
+                Materialize.toast('Debe seleccionar un producto para poder enviar la cotización.!', 5000, 'rounded')
+            } else {
+                sendprice();                                
+            }
+        }
+    });
+
+    $.validator.addMethod("pais", function (value) {
+        debugger;
+        return value != "";
+    }, 'Seleccione un pais');
+
+    $().ready(function () {
+        $('select').material_select();
+        $("#formCotizar").validate({
+            errorElement: 'div',
+            errorPlacement: function (error, element) {
+                var placement = $(element).data('error');
+                if (placement) {
+                    $(placement).append(error)
+                } else {
+                    error.insertAfter(element);
+                }
+            }
+        });
+
+        $(".onlynumber").keypress(function (event) {
+
+            var key = event.which || event.keyCode;
+
+            if ($(this).attr('max') !== undefined) {
+                var max = $(this).attr('max').length;
+
+                if ($(this).val().length >= max && key !== 8 && key !== 9 && key !== 13) {
+                    event.preventDefault();
+                    return false;
+                }
+
+            }
+
+            if ($(this).attr('maxlength') !== undefined) {
+                var max = $(this).attr('maxlength');
+
+                if ($(this).val().length >= max && key !== 8 && key !== 9 && key !== 13) {
+                    event.preventDefault();
+                    return false;
+                }
+            }
+
+            if (key == 8 || key == 9 || key == 27 || key == 13 ||
+                (key >= 35 && key <= 39) || (key >= 48 && key <= 57)) {
+                return;
+            } else {
+                event.preventDefault();
+            }
+        });
+
+        $("#formCotizar").validate({
+            rules: {
+                telefono: {
+                    number: true,
+                    minlength: 7,
+                    maxlength: 15
+                },
+                celular: {
+                    number: true,
+                    minlength: 7,
+                    maxlength: 15
+                },
+                ruc: {
+                    number: true,
+                    minlength: 11,
+                    maxlength: 15
+                }
+            },
+            messages: {
+                telefono: {
+                    minlength: "Debe ser un valor entre 7 y 15 caracteres",
+                    maxlength: "Debe ser un valor entre 7 y 15 caracteres"
+                },
+                celular: {
+                    minlength: "Debe ser un valor entre 7 y 15 caracteres",
+                    maxlength: "Debe ser un valor entre 7 y 15 caracteres"
+                },
+                ruc: {
+                    minlength: "Debe ser un valor entre 11 y 15 caracteres",
+                    maxlength: "Debe ser un valor entre 11 y 15 caracteres"
+                }
+            }
+        });       
+    });
+
+</script>
+<script>    
+    for (var i = 0 ; i < parseInt($('#cant_cotizacion')[0].innerHTML) ; i++) {
+        var id = $('#hdId' + i.toString()).attr('value');
+        var des = $('#hdD' + id).attr('value');
+        var FamPadre = $('#hdP' + id).attr('value');
+        var FamHijo = $('#hdH' + id).attr('value');
+        var cant = $('#can-' + i.toString()).attr('value');
+        
+        ga('ec:addProduct', {
+            'id': id,
+            'name': des,
+            'category': FamPadre,
+            'brand': 'Web DFG',
+            'variant': FamHijo,
+            'price': '0',
+            'quantity': cant
+        });
+    }
+
+    ga('ec:setAction', 'checkout', {
+        'step': 1,
+        'option': 'Registro de cliente'
+    });
+
+    ga('set', 'page', '/Cotización');
+    ga('send', 'pageview');
+
+    $('a.delCart').on('click', DelCar);
+    
+    function DelCar() {        
+        var id = $(this).attr('id');        
+        var indice = $('#hdI' + id).attr('value');
+        var des = $('#hdD' + id).attr('value');        
+        var FamPadre = $('#hdP' + id).attr('value');
+        var FamHijo = $('#hdH' + id).attr('value');        
+        var cant = $('#can-' + indice).attr('value');
+
+        $.ajax({
+            data: { 'id': id },
+            url: '/delcar/',
+            type: 'get',
+            success: function (data) {                
+                $('#'+id).parents('tr').first().remove();
+
+                $('#cant_cotizacion').html(data.length);
+                $('a.delCart').on('click', DelCar);
+
+                ga('ec:addProduct', {
+                    'id': id,
+                    'name': des,
+                    'category': FamPadre,
+                    'brand': 'Web DFG',
+                    'variant': FamHijo,
+                    'price': '0',
+                    'quantity': cant
+                });
+
+                ga('ec:setAction', 'remove');
+                ga('send', 'event', 'UX', 'click', 'Quitar producto');
+            },
+            error: function () {
+                alert('err');
+            }
+        });
+    }
+
+    function sendprice() {
+        debugger;
+        var empresa = document.forms['formCotizar']['empresa'].value;
+        var nombre = document.forms['formCotizar']['nombre'].value;
+        var RUC = document.forms['formCotizar']['ruc'].value;
+        var email = document.forms['formCotizar']['email'].value;        
+        var telefono = document.forms['formCotizar']['telefono'].value;
+        var celular = document.forms['formCotizar']['celular'].value;
+        var mensaje = document.forms['formCotizar']['mensaje'].value;
+        var pais = document.forms['formCotizar']['pais'].value;
+
+        var prod = "";
+        for (var i = 0 ; i < parseInt($('#cant_cotizacion')[0].innerHTML) ; i++) {            
+            var cod = $('#ID' + i.toString()).attr('value');
+            var cant = $('#can-' + i.toString()).val();
+            prod += '{"Codigo":"' + cod + '","Cantidad":"' + cant + '"},';
+        }
+
+        prod = '{"productos":[' + prod.substring(0, prod.length - 1) + ']}';
+
+        $.ajax({
+            data: { 'empresa': empresa, 'nombre': nombre, 'RUC': RUC, 'email': email, 'telefono': telefono, 'celular': celular, 'mensaje': mensaje, 'pais': pais, 'productos': prod },
+            url: '/sendprice/',
+            type: 'get',
+            success: function () {
+                Materialize.toast('Tu cotización fue recibida, en breve nos estaremos comunicando con usted. Gracias!', 5000, 'rounded')                
+                for (var i = 0 ; i < parseInt($('#cant_cotizacion')[0].innerHTML) ; i++) {
+                    var id = $('#hdId' + i.toString()).attr('value');
+                    var des = $('#hdD' + id).attr('value');
+                    var FamPadre = $('#hdP' + id).attr('value');
+                    var FamHijo = $('#hdH' + id).attr('value');
+                    var cant = $('#can-' + i.toString()).attr('value');
+
+                    ga('ec:addProduct', {
+                        'id': id,
+                        'name': des,
+                        'category': FamPadre,
+                        'brand': 'Web DFG',
+                        'variant': FamHijo,
+                        'price': '0',
+                        'quantity': cant
+                    });
+                }
+
+                ga('ec:setAction', 'checkout', { 'step': 2 });
+
+                $('#cant_cotizacion').html('0');
+                $('#datos').html('')
+                document.forms['formCotizar']['empresa'].value = "";
+                document.forms['formCotizar']['nombre'].value = "";
+                document.forms['formCotizar']['ruc'].value = "";
+                document.forms['formCotizar']['email'].value = "";
+                document.forms['formCotizar']['telefono'].value = "";
+                document.forms['formCotizar']['celular'].value = "";
+                document.forms['formCotizar']['mensaje'].value = "";
+                document.forms['formCotizar']['pais'].value = "";
+            },
+            error: function () {                
+                Materialize.toast('Lo sentimos su cotización no pudo ser enviado!', 5000, 'rounded')
+            }
+        });
+    }
+</script>
+{% endblock %}

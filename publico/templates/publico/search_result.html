@@ -1,0 +1,35 @@
+{% extends 'publico/products.html' %}
+{% block cabecera %}
+    BUSQUEDA
+{% endblock %}
+{% block scripts %}{{ block.super }}
+    <script>
+        $.ajax({
+            data: { 'id': '1' },
+            url: '/getProducts/',
+            type: 'get',
+            success: function (data) {                
+                for (var i = 0 ; i < data.length ; i++) {
+                    ga('ec:addImpression', {
+                        'id': data[i].CodArticulo,
+                        'name': data[i].DesArticulo,
+                        'category': data[i].FamiliaPadre,
+                        'brand': 'Web DFG',
+                        'variant': data[i].FamiliaHijo,
+                        'list': 'Busqueda',
+                        'position': data[i].Indice
+                    });
+                }
+            },
+            error: function () {
+                alert('err');
+            }
+        });
+        var busqueda = $('#busqueda')[0].innerHTML
+
+        ga('set', 'page', '/BusquedaResultado?q=' + busqueda);
+        ga('send', 'pageview');
+        
+        $('a.btn_view_prod').on('click', { procedencia: 'Busqueda' }, onProductClick);
+    </script>        
+{% endblock %}

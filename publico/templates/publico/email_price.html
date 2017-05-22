@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <table width="800px">
+        <tr>
+            <td style="text-align: right;">
+                <img src="http://www.dfgtruckparts.com/static/publico/img/email/logo-dfg.jpg">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div>
+                    <table style="margin-left: 20px;margin-right: 20px;" width="100%">
+                        <tr>
+                            <td colspan="2">
+                                <span style="font-size: 18px;color: #d7d7d7;font-family: Tahoma;line-height: 17px;">Hola({{ nombre }}):</span><br>
+                                <span style="color: #706f6f;font-weight: bold;font-family: Tahoma;font-size: 12px;line-height: 17px;">¡Gracias por tu pedido!</span><br>
+                                <span style="font-size: 12px;color: #9a999e;font-family: Tahoma;line-height: 17px;">Tu número de proforma es: </span><span style="color: #a9171f;font-weight: bold; font-family: Tahoma;">{{ correlativo }}</span><br><br>
+                                <span style="font-size: 12px;color: #9a999e;font-family: Tahoma;line-height: 17px;">
+                                    En breve un funcionario se pondrá en contacto contigo para atender tu proforma. El se encargará de guiarte hasta el final en tu compra.
+                                </span>                                
+                                <br><br>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <table width="100%">
+                                    <tr>
+                                        <td>
+                                            <span style="color: #a9171f; font-family: Tahoma; font-size: 18px;">PROFORMA</span>
+                                        </td>
+                                        <td rowspan="2" style="vertical-align: top;" width="220px">
+                                            <table width="100%">
+                                                <tr>
+                                                    <td>
+                                                        <a href="http://www.dfgtruckparts.com/offers_promotions" target="_blank"><img src="http://www.dfgtruckparts.com/static/publico/img/email/link-new-arrivals.jpg"></a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <a href="http://www.dfgtruckparts.com/static/publico/doc/catalogodfg2016.pdf" target="_blank"><img src="http://www.dfgtruckparts.com/static/publico/img/email/link-catalogo.jpg"></a>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <table width="100%" style="border: solid;border-width: 1px;border-color: #d7d7d7; border-collapse: separate;border-spacing: 15px 8px;">
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <img src="http://www.dfgtruckparts.com/static/publico/img/email/logo-dfg-sm.jpg">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2" style="text-align: right;">
+                                                        <span style="color: #a7161f;font-weight: bold; font-family: Tahoma;font-size:14px;">Proforma: {{ correlativo }}</span><br>
+                                                        <span style="color: #d4d3d3;font-weight: bold; font-family: Tahoma;font-size:14px;">Fecha: {{ fecha }}</span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2" style="background: url('http://www.dfgtruckparts.com/static/publico/img/barra.png') repeat left 1px;line-height: 0px;font-size: 15px;">
+                                                        <span style="color: #a7161f;font-family: Tahoma;font-size:16px;background-color: #ffffff !important;padding-right: 10px;padding-top: 10px;padding-bottom: 10px;line-height: 25px;margin-left: -1px;vertical-align: top;">Cliente</span><img src="http://www.dfgtruckparts.com/static/publico/img/Titleh1.png" alt="">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="border: solid;border-width: 1px;border-color: #d7d7d7;padding: 5px 5px 5px 5px;color: #b12128;font-family: Tahoma;font-size:12px;margin-right: 10px;">{{ empresa }}</td>
+                                                    <td style="border: solid;border-width: 1px;border-color: #d7d7d7;padding: 5px 5px 5px 5px;color: #b12128;font-family: Tahoma;font-size:12px;margin-right: 10px;">{{ nombre }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="border: solid;border-width: 1px;border-color: #d7d7d7;padding: 5px 5px 5px 5px;color: #b12128;font-family: Tahoma;font-size:12px;margin-right: 10px;">{{ RUC }}</td>
+                                                    <td style="border: solid;border-width: 1px;border-color: #d7d7d7;padding: 5px 5px 5px 5px;color: #b12128;font-family: Tahoma;font-size:12px;margin-right: 10px;">{{ email }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="border: solid;border-width: 1px;border-color: #d7d7d7;padding: 5px 5px 5px 5px;color: #b12128;font-family: Tahoma;font-size:12px;margin-right: 10px;">{{ telefono }}</td>
+                                                    <td style="border: solid;border-width: 1px;border-color: #d7d7d7;padding: 5px 5px 5px 5px;color: #b12128;font-family: Tahoma;font-size:12px;margin-right: 10px;">{{ celular }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2" style="background: url('http://www.dfgtruckparts.com/static/publico/img/barra.png') repeat left 1px;line-height: 0px;font-size: 15px;">
+                                                        <span style="color: #a7161f;font-family: Tahoma;font-size:16px;background-color: #ffffff !important;padding-right: 10px;padding-top: 10px;padding-bottom: 10px;line-height: 25px;margin-left: -1px;vertical-align: top;">Comentarios</span><img src="http://www.dfgtruckparts.com/static/publico/img/Titleh1.png" alt="">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2" style="border: solid;border-width: 1px;border-color: #d7d7d7;padding: 5px 5px 5px 5px;color: #b12128;font-family: Tahoma;font-size:12px;margin-right: 10px;">{{ mensaje }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2" style="background: url('http://www.dfgtruckparts.com/static/publico/img/barra.png') repeat left 1px;line-height: 0px;font-size: 15px;">
+                                                        <span style="color: #a7161f;font-family: Tahoma;font-size:16px;background-color: #ffffff !important;padding-right: 10px;padding-top: 10px;padding-bottom: 10px;line-height: 25px;margin-left: -1px;vertical-align: top;">Cotización</span><img src="http://www.dfgtruckparts.com/static/publico/img/Titleh1.png" alt="">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <table width="100%" style="border-collapse: separate;border-spacing: 3px 3px;">
+                                                            <tr>
+                                                                <td style="color: #b12128;font-family: Tahoma;font-size:11px;width: 80px;">Código</td>
+                                                                <td style="color: #b12128;font-family: Tahoma;font-size:11px;">Descripcion</td>
+                                                                <td style="color: #b12128;font-family: Tahoma;font-size:11px;width: 80px;">Linea</td>
+                                                                <td style="color: #b12128;font-family: Tahoma;font-size:11px;width: 100px;">Aplicacion</td>
+                                                                <td style="color: #b12128;font-family: Tahoma;font-size:11px;width: 40px;">Unidades</td>
+                                                            </tr>
+                                                            {% for producto in productos %}
+                                                            <tr>
+                                                                <td style="border: solid;border-width: 1px;border-color: #d7d7d7;padding: 8px 8px 8px 8px;color: #706f6f;font-family: Tahoma;font-size:12px;margin-right: 10px;">{{ producto.CodArticulo }}</td>
+                                                                <td style="border: solid;border-width: 1px;border-color: #d7d7d7;padding: 5px 8px 8px 8px;color: #706f6f;font-family: Tahoma;font-size:12px;margin-right: 10px;">{{ producto.Descripcion }}</td>
+                                                                <td style="border: solid;border-width: 1px;border-color: #d7d7d7;padding: 5px 8px 8px 8px;color: #706f6f;font-family: Tahoma;font-size:12px;margin-right: 10px;">{{ producto.Linea }}</td>
+                                                                <td style="border: solid;border-width: 1px;border-color: #d7d7d7;padding: 5px 8px 8px 8px;color: #706f6f;font-family: Tahoma;font-size:12px;margin-right: 10px;">{{ producto.Aplicacion }}</td>
+                                                                <td style="border: solid;border-width: 1px;border-color: #d7d7d7;padding: 5px 8px 8px 8px;color: #706f6f;font-family: Tahoma;font-size:12px;margin-right: 10px;text-align: center;">{{ producto.Cantidad }}</td>
+                                                            </tr>
+                                                            {% endfor %}
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td style="background-color: #a9171f;text-align: center;height: 45px;">
+                <span style="font-weight: bold;color: #ffffff;font-size: 11px;font-family: Tahoma;line-height: 17px;">DFG - COSTUMER SERVICE</span><br>
+                <span style="color: #ffffff;font-size: 11px;font-family: Tahoma;line-height: 17px;">costumerservice@dfgtruckparts.com</span>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

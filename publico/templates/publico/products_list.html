@@ -1,0 +1,48 @@
+{% extends 'publico/products.html' %}
+{% block cabecera %}    
+        PRODUCTOS    
+{% endblock %}   
+{% block titulo %}
+    <h2>
+        {{DSELFP}}
+    </h2>
+    <br>
+{% endblock %}
+{% block scripts %}{{ block.super }}
+    <script>        
+        $.ajax({
+            data: { 'id': '1' },
+            url: '/getProducts/',
+            type: 'get',
+            success: function (data) {                
+                for (var i = 0 ; i < data.length ; i++) {
+                    ga('ec:addImpression', {
+                        'id': data[i].CodArticulo,
+                        'name': data[i].DesArticulo,                        
+                        'category': data[i].FamiliaPadre,
+                        'brand': 'Web DFG',
+                        'variant': data[i].FamiliaHijo,
+                        'list': 'Producto Lista',
+                        'position': data[i].Indice
+                    });
+                }
+            },
+            error: function () {
+                alert('err');
+            }
+        });
+
+        ga('set', 'page', '/ProductosLista');
+        ga('send', 'pageview');
+
+        $('a.btn_view_prod').on('click', { procedencia: 'Producto Lista' }, onProductClick);
+
+        $().ready(function () {
+           $(".button-collapse2").sideNav({
+                menuWidth: 360, // Default is 240
+                edge: 'left'
+            });
+        });
+
+    </script>      
+{% endblock %}

@@ -1,0 +1,172 @@
+{% extends 'publico/layout_product.html' %}
+{% block title %}{{ block.super }}Productos | DFG{% endblock title %}
+{% block cabecera %}PRODUCTOS{% endblock %}
+{% block ListaProductos %}
+    {% load staticfiles %}
+<input type="hidden" id="hdID" value="{{ producto.CodArticulo }}" />
+<input type="hidden" id="hdP{{ producto.CodArticulo }}" value="{{ producto.FamiliaPadre }}" />
+<input type="hidden" id="hdH{{ producto.CodArticulo }}" value="{{ producto.FamiliaHijo }}" />
+
+<div class="row">
+    <div class="col s12 m5 l5">
+        <img id="imgSlide" class="valign materialboxed responsive-img" src="{% static 'publico/img/' %}{{ producto.Grafico }}" />                    
+        <p><i class="material-icons">visibility</i>Haz clic sobre la imagen</p>
+    </div>
+    <div class="col s12 m7 l7">
+        <h5 id="D{{ producto.CodArticulo }}" title="{{ producto.DesArticulo }}">{{ producto.DesArticulo }}</h5>
+        <hr>
+        <table class="informacion_detail">
+            <tr>
+                <td>
+                    <span class="title-detail">Aplicacion:</span>
+                </td>
+                <td>
+                    <span class="item-detail">{{ producto.Aplicacion }}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>    
+                    <span class="title-detail" id="DL{{ producto.CodArticulo }}" title="{{ producto.DesLinea }}">Línea:</span>
+                </td>
+                <td>
+                    <span class="item-detail">{{ producto.DesLinea }}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="title-detail">Código:</span>
+                </td>
+                <td>
+                    <span class="item-detail">{{ producto.CodArticulo }}</span>
+                </td>
+            </tr>
+        </table>
+        <hr>
+        <div class="row">
+            <div class="col s12">
+                <input id="can-{{ producto.CodArticulo }}" class="validate cantidad red-text text-darken-3 onlynumber" placeholder="1" value="{{ producto.Cantidad }}" min="1" maxlength="3"
+                       {% if producto.Seleccionado == '1' %}disabled = "disabled"{% endif %}>
+                            <span class="cantidad-span">Cantidad</span>
+            </div>
+            <div class="col s10"  id="div{{ producto.CodArticulo }}">
+                {% if producto.Seleccionado == '1' %}
+                                <input type="checkbox" id="addProd{{ producto.CodArticulo }}" checked="checked" disabled="disabled" />
+                                <label for="addProd{{ producto.CodArticulo }}" class="agregar item-check">
+                                    <i class="material-icons tiny icon-demo">fast_rewind</i> Producto agregado</label>
+                            {% else %}
+                                <input type="checkbox" id="addProd{{ producto.CodArticulo }}" />
+                                <label for="addProd{{ producto.CodArticulo }}" class="agregar item-check">
+                                    <a href="#" id="{{ producto.CodArticulo }}" class="btn_add_cart"><i class="material-icons tiny icon-demo">fast_rewind</i> <span id="sp{{ producto.CodArticulo }}" class="add_prod">Agregar a la cotización</span></a>
+                                </label>                            
+                            {% endif %}
+            </div>
+        </div>
+    </div>    
+</div>
+{% endblock %}
+{% block scripts %}{{ block.super }}
+<script>
+    $().ready(function () {
+
+        $('.materialboxed').materialbox();
+
+        $('.carousel').carousel({ dist: 0 });
+
+        $(".onlynumber").keypress(function (event) {
+
+            var key = event.which || event.keyCode;
+
+            if ($(this).attr('max') !== undefined) {
+                var max = $(this).attr('max').length;
+
+                if ($(this).val().length >= max && key !== 8 && key !== 9 && key !== 13) {
+                    event.preventDefault();
+                    return false;
+                }
+
+            }
+
+            if ($(this).attr('maxlength') !== undefined) {
+                var max = $(this).attr('maxlength');
+
+                if ($(this).val().length >= max && key !== 8 && key !== 9 && key !== 13) {
+                    event.preventDefault();
+                    return false;
+                }
+            }
+
+            if (key == 8 || key == 9 || key == 27 || key == 13 ||
+                (key >= 35 && key <= 39) || (key >= 48 && key <= 57)) {
+                return;
+            } else {
+                event.preventDefault();
+            }
+        });
+
+    });    
+    var id = $('#hdID').attr('value');
+    var des = $('#D' + id).attr('title');
+    var dlinea = $('#DL' + id).attr('title');
+    var FamPadre = $('#hdP' + id).attr('value');
+    var FamHijo = $('#hdH' + id).attr('value');
+
+    ga('ec:addProduct', {
+        'id': id,
+        'name': des,
+        'category': FamPadre,
+        'brand': 'Web DFG',
+        'variant': FamHijo
+    });
+
+    ga('ec:setAction', 'detail');
+
+    ga('set', 'page', '/ProductoDetalle');
+    ga('send', 'pageview');
+
+    $('a.btn_add_cart').on('click', AddCar);
+
+    function AddCar() {        
+        var id = $(this).attr('id');
+        var des = $('#D' + id).attr('title');
+        var dlinea = $('#DL' + id).attr('title');
+        var Cantidad = $('#can-' + id).val();
+
+        if (Cantidad == '') {
+            Cantidad = '1';
+            $('#can-' + id).val('1');
+        }
+
+        $.ajax({
+            data: { 'id': id, 'des': des, 'dlinea': dlinea, 'famPadre': FamPadre, 'famHijo': FamHijo, 'cantidad': Cantidad },
+            url: '/addcar/',
+            type: 'get',
+            success: function (data) {
+                $('#addProd' + id).attr("checked", "checked");
+                $('#addProd' + id).attr("disabled", "disabled");
+                $('#sp' + id).html('Producto agregado');
+                $('#cant_cotizacion').html(data.cant);
+                $('#' + id).removeClass("btn_add_cart")
+                $('#' + id).attr("disabled", "disabled");
+                $('#can-' + id).attr("disabled", "disabled");
+
+                ga('ec:addProduct', {
+                    'id': id,
+                    'name': des,
+                    'category': FamPadre,
+                    'brand': 'Web DFG',
+                    'variant': FamHijo,
+                    'price': '0',
+                    'quantity': '1'
+                });
+                ga('ec:setAction', 'add');
+                ga('send', 'event', 'UX', 'click', 'Agregar a la cotización');
+
+                Materialize.toast('Producto agregado: ' + des, 5000, 'rounded')
+            },
+            error: function () {
+                alert('err');
+            }
+        });
+    }
+</script>
+{% endblock %}

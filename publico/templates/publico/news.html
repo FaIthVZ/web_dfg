@@ -1,0 +1,85 @@
+{% extends 'publico/layout_news.html' %}
+{% block detalle %}
+    {% load staticfiles %}
+<div class="row">
+    <div class="col s12 m10 l11">
+        <div id="2015" class="section scrollspy">
+            <div>
+                <div class="titulo">
+                    <div>
+                        <span class="noticia">2015</span><img src="{% static 'publico/img/Titleh1.png' %}" alt="">
+                    </div>
+                </div>
+                <hr>
+            </div>
+        </div>
+        <div id="2015-01" class="section scrollspy">
+            <div>
+                <div class="row">
+                    <div class="col s12 m6 l4">
+                        <div class="row">
+                            <div class="col s12">
+                                <div>
+                                    <img src="{% static 'publico/img/brasil.jpg' %}" class="responsive-img materialboxed">
+                                </div>
+                            </div>
+                            <div class="col s12">
+                                <h5>Evento Brasil</h5><hr>
+                                <div>
+                                    <i class="material-icons dfg-red-text left">event</i><span>5 de Enero, 2015</span>
+                                </div>
+                                <hr>
+                                <blockquote>
+                                    <p align="justify">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Itaque quaerat soluta corporis. Quibusdam excepturi, nobis eaque aliquid nostrum laudantium provident sint labore porro voluptatem, quisquam ab amet vero alias tenetur. lorem<br>
+                                </blockquote>
+                                <hr>
+                                <a href="{% url 'news_detail' %}" class="right item_detail">leer más</a></p>
+                            </div>
+                        </div>                        
+                    </div>                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col hide-on-small-only m2 l1">
+        <div class="toc-wrapper pinned" style="top: 0px;">
+            <div style="height: 1px;">
+                <ul class="section table-of-contents">
+                    <li>
+                        <a href="#2015" class="waves-effect waves-red">2015</a>
+                        <ul>
+                            <li><a href="#2015-01" class="waves-effect waves-red item-menu">Enero</a></li>                            
+                        </ul>
+                        <hr>
+                    </li>                    
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}{{ block.super }}
+<script type="text/javascript">
+    ga('set', 'page', '/Noticias');
+    ga('send', 'pageview');
+
+    $(".news").addClass("active");
+
+    $().ready(function () {        
+
+        $('.toc-wrapper').pushpin({ top: $('header').height(), offset: $('.opciones').height() });
+
+        $('.scrollspy').scrollSpy();
+
+        $('.modal-trigger').leanModal({
+            dismissible: true, // Modal can be dismissed by clicking outside of the modal
+            opacity: .7, // Opacity of modal background
+            in_duration: 300, // Transition in duration
+            out_duration: 200, // Transition out duration                  
+        });
+
+        $('.materialboxed').materialbox();
+
+    });
+</script>
+{% endblock %}

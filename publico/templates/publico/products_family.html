@@ -1,0 +1,34 @@
+{% extends 'publico/layout_product.html' %}
+{% block ListaProductos %}
+    {% load staticfiles %}
+        <ul>
+            <li>
+                <div class="img_product">
+                    <a href="{% url 'products_list' %}">
+                        <img src="{% static 'publico/img/15940881.jpg' %}" alt="">
+                    </a>
+                </div>
+                <h3>
+                    <a href="http://dfgtruckparts.com/productos/amortiguadores/cabina/">
+                        Amortiguadores&nbsp;/
+                        Cabina
+                    </a>
+                </h3>
+            </li>
+            <li>
+                <div class="img_product">
+                    <a href="http://dfgtruckparts.com/productos/amortiguadores/suspension/">
+                        <img src="{% static 'publico/img/1480214.jpg' %}" alt="">
+                    </a>
+                </div>
+                <h3>
+                    <a href="http://dfgtruckparts.com/productos/amortiguadores/suspension/">
+                        Amortiguadores&nbsp;/
+                        Suspensión
+                    </a>
+                </h3>
+            </li>
+            <div class="clear">
+            </div>
+        </ul>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'publico/layout_news.html' %}
+{% block detalle %}
+    {% load staticfiles %}
+<div class="row">
+    <div class="col s12">
+        <div class="carousel">
+            <div class="center-align">
+                <a id="1" title="{% static 'publico/img/slider.png' %}" class="carousel-item" href="#"><img src="{% static 'publico/img/slider.png' %}"></a>
+                <a id="2" title="{% static 'publico/img/principal.jpg' %}" class="carousel-item" href="#"><img src="{% static 'publico/img/principal.jpg' %}"></a>
+                <a id="3" title="{% static 'publico/img/img3.jpg' %}" class="carousel-item" href="#"><img src="{% static 'publico/img/img3.jpg' %}"></a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}{{ block.super }}
+<script type="text/javascript">
+    ga('set', 'page', '/Ofertas');
+    ga('send', 'pageview');
+
+    $(".offers").addClass("active");
+
+    $().ready(function () {
+        $('.carousel').carousel({ dist: -400 });
+    });
+</script>
+{% endblock %}

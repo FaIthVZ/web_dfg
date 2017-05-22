@@ -1,0 +1,76 @@
+{% extends 'publico/layout_news.html' %}
+{% block detalle %}
+    {% load staticfiles %}
+<div class="row">
+    <div class="col s12 m12 l6">
+        <img id="imgSlide" src="{% static 'publico/img/slider.png' %}" class="responsive-img materialboxed">
+        <hr>
+        <div>
+            <div class="row">
+                <div class="col s1">
+                    <a href="#" class="prev">
+                        <i class="small material-icons dfg-red-text">chevron_left</i>
+                    </a>
+                </div>
+                <div class="col s10">
+                    <div class="carousel carousel-mod">
+                        <a id="1" title="{% static 'publico/img/slider.png' %}" class="carousel-item carousel-item-mod" href="#"><img src="{% static 'publico/img/slider.png' %}"></a>
+                        <a id="2" title="{% static 'publico/img/img2.jpg' %}" class="carousel-item carousel-item-mod" href="#"><img src="{% static 'publico/img/img2.jpg' %}"></a>
+                        <a id="3" title="{% static 'publico/img/img3.jpg' %}" class="carousel-item carousel-item-mod" href="#"><img src="{% static 'publico/img/img3.jpg' %}"></a>
+                        <a id="4" title="{% static 'publico/img/img4.png' %}" class="carousel-item carousel-item-mod" href="#"><img src="{% static 'publico/img/img4.png' %}"></a>
+                    </div>
+                </div>
+                <div class="col s1">
+                    <a href="#" class="next">
+                        <i class="small material-icons dfg-red-text">chevron_right</i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <hr>
+    </div>
+    <div class="col s12 m12 l6">
+        <h5>Evento Brasil</h5><hr>
+        <div>
+            <i class="material-icons dfg-red-text left">event</i><span>5 de Enero, 2015</span>
+        </div>
+        <hr>
+        <blockquote>
+            <p align="justify">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Itaque quaerat soluta corporis. Quibusdam excepturi, nobis eaque aliquid nostrum laudantium provident sint labore porro voluptatem, quisquam ab amet vero alias tenetur. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsum exercitationem architecto ex fuga in quibusdam inventore at rem, corporis est nam, fugit nostrum. Nobis suscipit, consequuntur blanditiis quia et nostrum. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugit incidunt facere nulla reprehenderit corporis, nihil officia. Quisquam incidunt harum, deserunt laudantium, quo architecto facilis vero. Commodi quod quas ab possimus. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Modi reprehenderit blanditiis, tempora ab in totam ea nesciunt, numquam officia ipsum velit, quod rem maiores cupiditate deserunt. Saepe, quasi, minus. Rem.
+        </blockquote>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}{{ block.super }}
+<script type="text/javascript">
+    ga('set', 'page', '/NoticiasDetalle');
+    ga('send', 'pageview');
+
+    $(".news").addClass("active");
+
+    $().ready(function () {
+
+        $('.materialboxed').materialbox();
+
+        $('.carousel').carousel({dist: 0});
+    });
+
+    $('a.carousel-item').on('click', loadImg); 
+
+    function loadImg(){
+        var source = $(this).attr('title');
+        $("#imgSlide").attr("src",source);
+    }
+
+    $('a.next').on('click', next);
+    function next(){
+        $('.carousel').carousel('next');
+    }
+
+    $('a.prev').on('click', prev);
+    function prev(){
+        $('.carousel').carousel('prev');
+    }
+    </script>
+</script>
+{% endblock %}

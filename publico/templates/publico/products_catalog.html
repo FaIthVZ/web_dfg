@@ -1,0 +1,40 @@
+{% extends 'publico/layout_product.html' %}
+{% block title %}{{ block.super }}Productos | DFG{% endblock title %}
+{% block cabecera %}{{ block.super }}
+    PRODUCTOS
+{% endblock cabecera %}
+{% block ListaProductos %}{{ block.super }}
+    {% load staticfiles %}
+
+<div class="row">
+    {% for fam1 in SECCIONES %}
+    {% if fam1.PadreFamiliaID == '' %}
+    <div class="col s6 m4 l3">
+        <div class="card hoverable waves-effect waves-red">
+            <div class="card-image">
+                <a href="{% url 'products_list' 0 0 fam1.FamiliaID %}">
+                    <img src="{% static 'publico/img/'%}{{ fam1.Grafico }}" class="responsive-img">
+                </a>
+            </div>
+            <div class="card-action">
+                <a class="oferta" href="{% url 'products_list' 0 0 fam1.FamiliaID %}">{{ fam1.Descripcion }}</a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+</div>
+{% endblock ListaProductos %}
+{% block scripts %}{{ block.super }}
+<script type="text/javascript">
+    ga('set', 'page', '/ProductosFamilias');
+    ga('send', 'pageview');
+
+    $().ready(function () {
+        $(".button-collapse2").sideNav({
+            menuWidth: 360, // Default is 240
+            edge: 'left'
+        });
+    });
+</script>
+{% endblock %}
